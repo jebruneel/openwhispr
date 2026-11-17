@@ -16,6 +16,7 @@ import {
   resolveChineseScriptTarget,
   resolveCleanupLanguage,
 } from "../utils/chineseScript";
+import { toSttLanguage, withBilingualPromptBias } from "../utils/bilingualDictation";
 import {
   createLocalSpeechGateState,
   getLocalSpeechGateDecision,
@@ -941,13 +942,15 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
 
   // Whisper only accepts language "zh"; script (简体/繁體) is applied here. See #975.
   // No transcript exists yet, so only an explicit zh-CN/zh-TW may bias the prompt.
+  // Dutch + English dictation opens the prompt with a mixed example sentence.
   getWhisperPrompt(settings = getSettings(), dictionaryPrompt = this.getCustomDictionaryPrompt()) {
-    return mergeWhisperPrompt(
-      dictionaryPrompt,
-      resolveChineseScriptTarget(
-        this.getEffectiveSttLanguage(settings),
-        settings.chineseScriptPreference
-      )
+    const sttLanguage = this.getEffectiveSttLanguage(settings);
+    return withBilingualPromptBias(
+      mergeWhisperPrompt(
+        dictionaryPrompt,
+        resolveChineseScriptTarget(sttLanguage, settings.chineseScriptPreference)
+      ),
+      sttLanguage
     );
   }
 
@@ -1270,7 +1273,7 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
       settings,
       context: "dictation",
       sttConfig: this.sttConfig,
-      language: this.getEffectiveSttLanguage(settings),
+      language: toSttLanguage(this.getEffectiveSttLanguage(settings)),
     });
     // A server-driven sttConfig.streamingProvider we don't recognize must fall
     // back to a provider we can run — and the reported name must match the
@@ -5048,7 +5051,7 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
       const route = resolveManagedOrukeetRoute({
         settings: s,
         sttConfig: this.sttConfig,
-        language: this.getEffectiveSttLanguage(s),
+        language: toSttLanguage(this.getEffectiveSttLanguage(s)),
       });
       return route === "orukeet" && Boolean(isSignedInOverride ?? s.isSignedIn);
     }
@@ -5157,7 +5160,7 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
             buildStreamingSessionOptions({
               providerName,
               settings,
-              language: settings.preferredLanguage,
+              language: toSttLanguage(settings.preferredLanguage),
               keyterms: this.getKeyterms(),
               voiceAgentRequested: this.voiceAgentRequested,
               // Warmup runs while idle, so the socket is for an ordinary
@@ -5389,7 +5392,7 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
     const route = resolveManagedOrukeetRoute({
       settings,
       sttConfig: this.sttConfig,
-      language: this.getEffectiveSttLanguage(settings),
+      language: toSttLanguage(this.getEffectiveSttLanguage(settings)),
     });
     return route === "language_unsupported" ? route : undefined;
   }
@@ -5652,7 +5655,7 @@ registerProcessor("pcm-streaming-processor", PCMStreamingProcessor);
         const sessionOptions = buildStreamingSessionOptions({
           providerName,
           settings: streamingSettings,
-          language: this.getEffectiveSttLanguage(streamingSettings),
+          language: toSttLanguage(this.getEffectiveSttLanguage(streamingSettings)),
           keyterms: this.getKeyterms(),
           voiceAgentRequested: this.voiceAgentRequested,
           pipelineOptions: this._activePipelineOptions,

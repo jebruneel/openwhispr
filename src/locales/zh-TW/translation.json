@@ -7,6 +7,7 @@
       "uiDescription": "選擇 OpenWhispr 介面使用的語言",
       "transcriptionLabel": "轉錄語言",
       "transcriptionDescription": "選擇你說話的語言，以提高轉錄準確度",
+      "mixedDutchEnglishHint": "荷蘭語和英語會一起轉錄，因此你可以在句子中途切換語言。為獲得最佳效果，請使用 Whisper Turbo 或 Large (q5) 模型，並開啟本機模型清理（AI 模型 → 聽寫清理），它會根據句子上下文修正混用的單字。",
       "chineseScriptLabel": "中文書寫（語音輸入）",
       "chineseScriptDescription": "偵測到中文時，將語音輸入的轉錄結果轉換為簡體或繁體。口語聽起來一樣；Whisper 只會輸出一種字形。",
       "chineseScriptAsTranscribed": "保持轉錄原樣",

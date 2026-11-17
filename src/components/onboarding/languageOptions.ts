@@ -42,7 +42,7 @@ export const getOnboardingLanguageByCode = (code: string) =>
   registry.languages.find((language) => language.code === code);
 
 const orderedLanguages = registry.languages
-  .filter(({ code }) => code !== "auto")
+  .filter(({ code }) => code !== "auto" && code !== "nl-en")
   .sort((left, right) => {
     const leftIndex = PRIMARY_LANGUAGE_CODES.indexOf(left.code);
     const rightIndex = PRIMARY_LANGUAGE_CODES.indexOf(right.code);
