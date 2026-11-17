@@ -6,6 +6,7 @@ import { API_ENDPOINTS } from "../config/constants";
 import i18n, { normalizeUiLanguage } from "../i18n";
 import { readStoredAccountScopeUserId } from "../lib/authAccountScope";
 import { ensureAgentNameInDictionary } from "../utils/agentName";
+import { isBilingualNlEn } from "../utils/bilingualDictation";
 import { chooseDictionaryStartupAction } from "../helpers/dictionaryStartup";
 import logger from "../utils/logger";
 import whisperVadConstants from "../constants/whisperVad.json";
@@ -2306,7 +2307,13 @@ export const useSettingsStore = create<SettingsState>()((set, get) => ({
   setAllowOpenAIFallback: createBooleanSetter("allowOpenAIFallback"),
   setAllowLocalFallback: createBooleanSetter("allowLocalFallback"),
   setFallbackWhisperModel: createStringSetter("fallbackWhisperModel"),
-  setPreferredLanguage: createStringSetter("preferredLanguage"),
+  setPreferredLanguage: (value: string) => {
+    const switchingToMixed =
+      isBilingualNlEn(value) && !isBilingualNlEn(useSettingsStore.getState().preferredLanguage);
+    createStringSetter("preferredLanguage")(value);
+    // Mixed Dutch + English relies on cleanup to settle code-switched words.
+    if (switchingToMixed) createBooleanSetter("useCleanupModel")(true);
+  },
   setChineseScriptPreference: (value: ChineseScriptPreference) =>
     createStringSetter("chineseScriptPreference")(normalizeChineseScriptPreference(value)),
   setCloudTranscriptionProvider: createStringSetter("cloudTranscriptionProvider"),

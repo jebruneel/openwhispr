@@ -132,6 +132,15 @@
       "instruction": "LANGUAGE CONTEXT: The user's preferred language is Dutch. The transcribed text will be in Dutch. You MUST write your entire output in Dutch while maintaining proper Dutch grammar, spelling, and punctuation. If the user naturally uses English words or technical terms, preserve those as-is."
     },
     {
+      "code": "nl-en",
+      "label": "Dutch + English (mixed)",
+      "flag": "\uD83C\uDDF3\uD83C\uDDF1",
+      "whisper": true,
+      "parakeet": false,
+      "assemblyai": false,
+      "instruction": "LANGUAGE CONTEXT: The speaker is bilingual and code-switches freely between Dutch and English, often within a single sentence. The transcription may contain Dutch, English, or a mix of both. NEVER translate: keep every word in the language it was spoken in, and keep each sentence in the language mix it was spoken in. Apply Dutch grammar, spelling, and punctuation to the Dutch parts and English spelling to the English parts. Speech recognition often mishears an English word inside a Dutch sentence as a similar-sounding Dutch word (or the reverse); use the surrounding context to restore the word the speaker actually said in the language they said it in. Do not add, remove, or reword content beyond these corrections."
+    },
+    {
       "code": "en-US",
       "label": "English (US)",
       "flag": "\uD83C\uDDFA\uD83C\uDDF8",

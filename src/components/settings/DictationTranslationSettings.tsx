@@ -11,7 +11,8 @@ import LanguageSelector from "../ui/LanguageSelector";
 import InferenceConfigEditor from "./InferenceConfigEditor";
 
 const TARGET_OPTIONS = registry.languages
-  .filter((l) => l.code !== "auto")
+  // A translation target is one language; the mixed dictation mode isn't one.
+  .filter((l) => l.code !== "auto" && l.code !== "nl-en")
   .map(({ code, label, flag }) => ({ value: code, label, flag }));
 
 const OPTION_BY_CODE = new Map(TARGET_OPTIONS.map((o) => [o.value, o]));

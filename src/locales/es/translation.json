@@ -7,6 +7,7 @@
       "uiDescription": "Elige el idioma usado en la interfaz de OpenWhispr",
       "transcriptionLabel": "Idioma de transcripción",
       "transcriptionDescription": "Elige el idioma que hablas para mejorar la precisión",
+      "mixedDutchEnglishHint": "El neerlandés y el inglés se transcriben juntos, así que puedes cambiar de idioma a mitad de frase. Para obtener mejores resultados, usa el modelo Whisper Turbo o Large (q5) y activa la limpieza con un modelo local (Modelos de IA → Limpieza del dictado), que corrige las palabras mezcladas según el contexto de la frase.",
       "chineseScriptLabel": "Escritura china (dictado)",
       "chineseScriptDescription": "Cuando se detecte chino, convierte las transcripciones dictadas a caracteres simplificados o tradicionales. El chino hablado suena igual; Whisper solo devuelve una escritura.",
       "chineseScriptAsTranscribed": "Mantener como se transcribió",

@@ -3481,6 +3481,13 @@ export default function SettingsPage({
                     />
                   </SettingsRow>
                 </SettingsPanelRow>
+                {preferredLanguage === "nl-en" && (
+                  <SettingsPanelRow>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      {t("settings.language.mixedDutchEnglishHint")}
+                    </p>
+                  </SettingsPanelRow>
+                )}
                 {preferredLanguage === "auto" && (
                   <SettingsPanelRow>
                     <SettingsRow
